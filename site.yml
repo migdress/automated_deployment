@@ -3,6 +3,12 @@
 - hosts: localhost
   gather_facts: false
   #remote_user: ubuntu
-  become: yes
+  #become: yes
   roles:
     - aws-vpc
+
+- hosts: ec2
+  vars:
+  roles:
+    - web
+
