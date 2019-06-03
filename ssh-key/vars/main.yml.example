@@ -1,0 +1,4 @@
+---
+# vars file for ssh-key
+
+public_key_url: "http://paste.openstack.org/raw/osn4Yi7NFIb6PsYpRkT8/"

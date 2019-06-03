@@ -48,7 +48,6 @@
       tags:
           Name: "{{ route_name }}"
 
- # update CIDR address in the SSH port section
  - name: Create security group
    ec2_group:
        name: Web DMZ
@@ -72,7 +71,7 @@
    ec2_key: 
        aws_access_key: "{{ aws_access_key }}"
        aws_secret_key: "{{ aws_secret_key }}"
-       name: ec2_keypair
+       name: "{{ keypair_name }}"
        region: "{{ region }}"
    register: keypair
 
@@ -81,19 +80,19 @@
      #verbosity: 2
 
  - name: Copy ec2 private key locally so it can be later on used to ssh into the instance
-   copy: content="{{ keypair.key.private_key }}" dest={{ ec2_key_directory }}key.ppk
+   copy: content="{{ keypair.key.private_key }}" dest={{ ec2_key_directory }}{{ private_key_name }}
    when: keypair.changed == true
 
  - name: Give right permissions to key file
    file:
-       path: "{{ ec2_key_directory }}key.ppk"
+       path: "{{ ec2_key_directory }}{{ private_key_name }}"
        mode: "0400"
 
  - name: Create ec2 instance
    ec2: 
-       image: ami-024a64a6685d05041 #ubuntu 18.04
+       image: "{{ ami_id }}" 
        wait: yes
-       instance_type: t2.micro
+       instance_type: "{{ ec2_instance_type }}" 
        region: "{{ region }}"
        group_id: "{{ security_group.group_id }}"
        vpc_subnet_id: "{{ subnet.subnet.id }}"
@@ -102,7 +101,7 @@
            Name: "{{ ec2_tag }}"
        count_tag: 
            Name: "{{ ec2_tag }}"
-       exact_count: 1
+       exact_count: "{{ ec2_number_of_instances }}"
        aws_access_key: "{{ aws_access_key }}"
        aws_secret_key: "{{ aws_secret_key }}"
    register: ec2_instance
@@ -125,8 +124,8 @@
    add_host: 
        name: "{{ item.public_ip }}"
        groups: "ec2"
-       ansible_ssh_user: ubuntu 
-       ansible_ssh_private_key_file: "{{ec2_key_directory}}key.ppk"
+       ansible_ssh_user: "{{ ec2_remote_user }}" 
+       ansible_ssh_private_key_file: "{{ec2_key_directory}}{{private_key_name}}"
        ansible_python_interpreter: "/usr/bin/python3"
        private_ip_address: "{{ item.private_ip }}"
    loop: "{{ec2_instance.instances}}"

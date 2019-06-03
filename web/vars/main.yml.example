@@ -1,7 +1,7 @@
 ---
 # vars file for web
 #
-remote_user: "ubuntu"
+ec2_remote_user: "ubuntu"
 
 database_host: ""
 database_name: ""

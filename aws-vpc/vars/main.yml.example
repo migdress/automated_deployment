@@ -14,16 +14,38 @@ vpc_name: "Ansible VPC"
 subnet_name: "Ansible Subnet"
 subnet_cidr: 10.10.0.0/26
  
-# Internet Gateway Name
+# Internet gateway and route name
 igw_name: "Traffic IGW"
 route_name: "default gw"
- 
+
+# Name for security group
 securitygroup_name: "Ansible Security Group"
- 
+
+# Tag for the ec2 instance
 ec2_tag: "WebServer"
  
-#The local path to which we would save our EC2 Private Key
+# The local path to which we would save our ec2 private key, put a slash at the end
 ec2_key_directory: "./storage/private-keys/"
+
+# ec2 keypair name in aws
 keypair_name: "ec2_key_pair"
+
+# Name for the private key to access the ec2 instance
+private_key_name: "key"
+
+# Ami id 
+ami_id: "ami-024a64a6685d05041" #Ubuntu 18.04
+
+# EC2 remote user
+ec2_remote_user: "ubuntu"
+
+# Instance type
+ec2_instance_type: "t2.micro"
+
+# Number of instances to deploy
+ec2_number_of_instances: "1"
+
+
+
 
 

@@ -1,7 +1,6 @@
 ---
 # tasks file for web
  
-
   - name: Update repositories and install latest nodejs
     become: true
     apt: 
@@ -35,8 +34,8 @@
         path: "{{app_dir}}" 
         state: directory
         recurse: yes
-        owner: "{{remote_user}}"
-        group: "{{remote_user}}"
+        owner: "{{ec2_remote_user}}"
+        group: "{{ec2_remote_user}}"
     become: true
 
   - name: Clone application into directory

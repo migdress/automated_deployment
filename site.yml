@@ -2,8 +2,6 @@
 
 - hosts: localhost
   gather_facts: false
-  #remote_user: ubuntu
-  #become: yes
   roles:
     - aws-vpc
 
