@@ -9,6 +9,7 @@
 
 - hosts: ec2
   vars:
+      private_ip: private_ip_address
   roles:
     - web
 

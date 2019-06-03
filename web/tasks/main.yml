@@ -1,0 +1,112 @@
+---
+# tasks file for web
+ 
+
+  - name: Update repositories and install latest nodejs
+    become: true
+    apt: 
+        name: nodejs
+        update_cache: yes
+
+  - name: Install latest version of npm
+    become: true
+    apt: 
+        name: npm
+
+  - name: Install latest version of git
+    become: true
+    apt: 
+        name: git
+
+  - name: Remove application directory if exists
+    become: true
+    file:
+        state: absent
+        path: "{{app_dir}}"
+
+  - name: Create directory where the application will be cloned
+    become: true
+    file:
+        path: "{{app_dir}}"
+        state: directory
+
+  - name: Recursively change ownership of a directory
+    file:
+        path: "{{app_dir}}" 
+        state: directory
+        recurse: yes
+        owner: "{{remote_user}}"
+        group: "{{remote_user}}"
+    become: true
+
+  - name: Clone application into directory
+    git:
+        repo: "https://github.com/migdress/express_basic_app.git"
+        dest: "{{app_dir}}"
+
+  - name: Create env files from example
+    shell: "cp {{app_dir}}.env.example {{app_dir}}.env"
+
+  - name: Set up application host
+    replace:
+        path: "{{app_dir}}.env"
+        regexp: 'REPLACE_HOST'
+        replace: "{{ private_ip_address }}"
+
+  - name: Set up application port
+    replace:
+        path: "{{app_dir}}.env"
+        regexp: 'REPLACE_PORT'
+        replace: "{{app_port}}"
+
+  - name: Set up application database host
+    replace:
+        path: "{{app_dir}}.env"
+        regexp: 'REPLACE_DB_HOST'
+        replace: "{{database_host}}"
+
+  - name: Set up application database name
+    replace:
+        path: "{{app_dir}}.env"
+        regexp: 'REPLACE_DB_NAME'
+        replace: "{{database_name}}"
+        
+  - name: Set up application database user
+    replace:
+        path: "{{app_dir}}.env"
+        regexp: 'REPLACE_DB_USER'
+        replace: "{{database_user}}"
+
+  - name: Set up application database password
+    replace:
+        path: "{{app_dir}}.env"
+        regexp: 'REPLACE_DB_PASSWORD'
+        replace: "{{database_password}}"
+
+  - name: Install NPM packages based on package.json.
+    npm:
+        path: "{{app_dir}}"
+
+  - name: Kill all npm processes if present
+    shell: "killall -q npm &2>/dev/null"
+    become: true
+
+
+  - name: Kill all node processes if present
+    shell: "killall -q node &2>/dev/null"
+    become: true
+
+  - name: Remove output runtime files if exist
+    become: true
+    file:
+        state: absent
+        path: "{{app_dir}}{{app_host}}"
+
+  - name: Start application
+    shell: "cd {{app_dir}}; sudo node bin/www"
+    async: 2592000 # 1 month
+    poll: 0
+
+  - debug:
+        msg: Application deployed to "{{ ansible_host }}"
+

@@ -99,9 +99,9 @@
        vpc_subnet_id: "{{ subnet.subnet.id }}"
        key_name: "{{ keypair.key.name }}"
        instance_tags:
-           Name: nginx
+           Name: "{{ ec2_tag }}"
        count_tag: 
-           Name: nginx
+           Name: "{{ ec2_tag }}"
        exact_count: 1
        aws_access_key: "{{ aws_access_key }}"
        aws_secret_key: "{{ aws_secret_key }}"
@@ -114,12 +114,11 @@
    wait_for: host={{item.public_ip}} port=22 delay=60 timeout=320 state=started
    loop: "{{ec2_instance.instances}}"
 
-
  - name: Append new host line to hosts file
    lineinfile:
        path: hosts
        regexp: 'ec2_1'
-       line: "ec2_1 ansible_host={{item.public_ip}} ansible_ssh_user=ubuntu ansible_ssh_private_key_file={{ec2_key_directory}}key.ppk ansible_python_interpreter=/usr/bin/python3"
+       line: "ec2_1 ansible_host={{item.public_ip}} ansible_ssh_user=ubuntu ansible_ssh_private_key_file={{ec2_key_directory}}key.ppk ansible_python_interpreter=/usr/bin/python3 private_ip_address={{ item.private_ip }}"
    loop: "{{ec2_instance.instances}}"
  
  - name: Add created instance to host group
@@ -129,6 +128,7 @@
        ansible_ssh_user: ubuntu 
        ansible_ssh_private_key_file: "{{ec2_key_directory}}key.ppk"
        ansible_python_interpreter: "/usr/bin/python3"
+       private_ip_address: "{{ item.private_ip }}"
    loop: "{{ec2_instance.instances}}"
    register: added_hosts
 

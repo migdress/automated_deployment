@@ -1,0 +1,13 @@
+---
+# vars file for web
+#
+remote_user: "ubuntu"
+
+database_host: ""
+database_name: ""
+database_user: ""
+database_password: ""
+
+app_port: "80"
+app_dir: "/srv/apps/simpleapp/"
+
