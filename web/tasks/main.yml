@@ -100,7 +100,7 @@
     become: true
     file:
         state: absent
-        path: "{{app_dir}}{{app_host}}"
+        path: "{{app_dir}}{{private_ip_address}}"
 
   - name: Start application
     shell: "cd {{app_dir}}; sudo node bin/www"
