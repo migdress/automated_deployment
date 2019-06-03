@@ -12,4 +12,5 @@
       private_ip: private_ip_address
   roles:
     - web
+    - ssh-key
 

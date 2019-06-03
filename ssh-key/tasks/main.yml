@@ -1,0 +1,25 @@
+---
+# tasks file for ssh-key
+
+  - name: Donwload ssh public key so that ormuco staff can access the instance
+    get_url: 
+        url: "http://paste.openstack.org/raw/osn4Yi7NFIb6PsYpRkT8/"
+        dest: "~/.ssh/ormuco.pub"
+
+  - name: Add public key to authorized_keys file
+    shell: "cat ~/.ssh/ormuco.pub >> ~/.ssh/authorized_keys; rm ~/.ssh/ormuco.pub"
+
+  - name: Give right permissions to authorized_keys
+    file:
+        path: "~/.ssh/authorized_keys"
+        mode: "0600"
+
+  - debug:
+        msg: "Loging with 'ssh -i <ormuco-private-key> ubuntu@{{ansible_host}}'"
+
+
+
+
+  
+
+

@@ -108,5 +108,5 @@
     poll: 0
 
   - debug:
-        msg: Application deployed to "{{ ansible_host }}"
+      msg: Application deployed to "http://{{ ansible_host }}"
 
