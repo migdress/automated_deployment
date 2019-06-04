@@ -29,7 +29,7 @@ Installation
 ------------------
 
 * `git clone https://github.com/migdress/ormuco_test.git`
-* `cd ormuco-test`
+* `cd ormuco_test`
 * On Linux, give execution permissions to `install.sh` with `chmod +x install.sh` and run it from a terminal
 * On Windows, run `install.bat` from a command prompt
 * Modify configuration files `aws-vpc/vars/main.yml` and `web/vars/main.yml`
