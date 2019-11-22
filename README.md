@@ -9,8 +9,8 @@ The project structure is composed by 3 roles:
   * Subnet creation
   * Internet gateway creation
   * Routing rule creation
-  * Ec2 keypair creation
-  * Ec2 instance creation
+  * EC2 keypair creation
+  * EC2 instance creation
 
 * **web**: whose responsibility is to deploy and set up the application, among
   the performed tasks are the ones listed below
