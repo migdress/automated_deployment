@@ -20,7 +20,7 @@ The project structure is composed by 3 roles:
   * Run the applicatiom
 
 * **ssh-key**: whose responsibility is to download a public key file and add it
-  to the `authorized_keys` so that ormuco staff can access the instance
+  to the `authorized_keys` for the client to be able to access the instance
 
 The entry point for the playbook is the file **site.yml**
 
@@ -28,8 +28,8 @@ The entry point for the playbook is the file **site.yml**
 Installation
 ------------------
 
-* `git clone https://github.com/migdress/ormuco_test.git`
-* `cd ormuco_test`
+* `git clone https://github.com/migdress/automated_deployment.git`
+* `cd automated_deployment`
 * On Linux, give execution permissions to `install.sh` with `chmod +x install.sh` and run it from a terminal
 * On Windows, run `install.bat` from a command prompt
 * Modify configuration files `aws-vpc/vars/main.yml` and `web/vars/main.yml`
